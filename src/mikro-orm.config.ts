@@ -1,12 +1,12 @@
-import { defineConfig } from "@mikro-orm/postgresql";
-import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
+import { defineConfig, PostgreSqlDriver, ReflectMetadataProvider } from "@mikro-orm/postgresql";
 import { Migrator } from '@mikro-orm/migrations';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { SeedManager } from '@mikro-orm/seeder';
-  
+
 export default defineConfig({
+  driver: PostgreSqlDriver,
   host: 'localhost',
-  port: 5432,
+  port: 54320,
   user: 'keni',
   password: 'pass123',
   dbName: 'iluvcoffee',
@@ -16,9 +16,9 @@ export default defineConfig({
   ],
   entitiesTs: [
     'src/**/*.entity.ts',
-    'src/common/entities/*.entity.js',
+    'src/common/entities/*.entity.ts',
   ],
   debug: true,
-  metadataProvider: TsMorphMetadataProvider,
+  metadataProvider: ReflectMetadataProvider,
   extensions: [Migrator, EntityGenerator, SeedManager],
 })

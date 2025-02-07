@@ -1,23 +1,30 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { Type } from "class-transformer";
+import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreatePokemonDto {
-
+  @IsOptional()
   @IsNumber()
-  readonly pokemon_id: number;
+  @Type(() => Number)
+  readonly pokemon_id?: number;
   
   @IsNotEmpty()
   @IsString()
   readonly name!: string;
 
+  @IsOptional()
   @IsString()
-  readonly image_url!: string;
+  readonly image_url?: string;
 
+  @IsOptional()
   @IsString()
-  readonly shiny_url!: string;
+  readonly shiny_url?: string;
 
   @IsNotEmpty()
-  @IsString()
+  @IsNumber()
+  @Type(() => Number)
   readonly generation!: number;
   
-  readonly description!: string;
+  @IsOptional()
+  @IsString()
+  readonly description?: string;
 }

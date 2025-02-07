@@ -1,43 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Pokemon } from './pokemon.entity';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import { assign, EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
+import { CreatePokemonDto, UpdatePokemonDto } from './dto';
 
 @Injectable()
 export class PokemonsService {
-  private pokemons: Pokemon[] = [
-    {
-      pokemon_id: 1,
-      name: "Pikachu",
-      image_url: "https://open.spotify.com/track/0eCyJaA5LWxYZgbGF1gORO",
-      shiny_url: "https://open.spotify.com/track/0eCyJaA5LWxYZgbGF1gORO",
-      generation: 1,
-      description: "This is pikachu",
-    },
-  ];
+
+  constructor(
+    @InjectRepository(Pokemon)
+    private readonly pokemonRepository: EntityRepository<Pokemon>,
+    private readonly em: EntityManager,
+  ) {}
 
   findAll() {
-    return this.pokemons;
+    return this.pokemonRepository.findAll();
   }
 
-  findOne(pokemon_id: string) {
-    return this.pokemons.find(item => item.pokemon_id === +pokemon_id)
-  }
-
-  create(CreatePokemonDto: any) {
-    this.pokemons.push(CreatePokemonDto);
-    return CreatePokemonDto;
-  }
-
-  update(pokemon_id: string, updatePokemonDto: any) {
-    const existingPokemon = this.findOne(pokemon_id);
-    if (existingPokemon) {
-      // update
+  async findOne(pokemon_id: string) {
+    const pokemon = await this.pokemonRepository.findOne({ pokemon_id: Number(pokemon_id)})
+    if (!pokemon) {
+      throw new NotFoundException(`Pokemon #${pokemon_id} not found`)
     }
+    return pokemon;
   }
 
-  remove(pokemon_id: string) {
-    const pokemonId = this.pokemons.findIndex(item => item.pokemon_id === + pokemon_id);
-    if (pokemonId >= 0) {
-      this.pokemons.splice(pokemonId, 1);
+  async create(createPokemonDto: CreatePokemonDto) {
+    const exists = await this.pokemonRepository.count({ name: createPokemonDto.name })
+
+    if (exists > 0) {
+      throw new ConflictException(
+        `Pokemon with name '${createPokemonDto.name}' already exists`
+      );
     }
+    
+    const pokemon = this.pokemonRepository.create(createPokemonDto)
+
+    this.em.persistAndFlush(pokemon);
+    return pokemon;
+  }
+
+  async update(pokemon_id: string, updatePokemonDto: UpdatePokemonDto) {
+    const pokemon = await this.pokemonRepository.findOne({ pokemon_id: Number(pokemon_id)})
+    if (!pokemon) {
+      throw new NotFoundException(`Pokemon #${pokemon_id} not found`);
+    }
+
+    wrap(pokemon).assign(updatePokemonDto)
+    await this.em.flush();
+    return pokemon;
+  }
+
+  async remove(pokemon_id: string) {
+    const pokemon = await this.pokemonRepository.findOne({ pokemon_id: Number(pokemon_id)})
+    if (!pokemon) {
+      throw new NotFoundException(`Pokemon #${pokemon_id} not found`);
+    }
+    this.em.removeAndFlush(pokemon);
+    return {
+      success: true,
+      message: `Pokemon #${pokemon_id} successfully removed`
+    };
   }
 }

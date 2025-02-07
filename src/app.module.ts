@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PokemonModule } from './pokemons/pokemon.module';
 import { CommonModule } from './common/common.module';
-import { PokemonService } from './pokemon/pokemon.service';
+import { PokemonsModule } from './pokemons/pokemons.module';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 
 @Module({
-  imports: [PokemonModule, CommonModule],
+  imports: [
+    MikroOrmModule.forRoot(), 
+    PokemonsModule, 
+    CommonModule
+  ],
   controllers: [AppController],
-  providers: [AppService, PokemonService],
+  providers: [AppService],
 })
 export class AppModule {}
