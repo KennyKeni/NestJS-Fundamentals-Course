@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
-import { Pokemon } from './pokemon.entity';
+import { Pokemon } from './entities/pokemon.entity';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { assign, EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';

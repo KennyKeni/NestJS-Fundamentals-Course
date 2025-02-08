@@ -11,12 +11,10 @@ export default defineConfig({
   password: 'pass123',
   dbName: 'iluvcoffee',
   entities: [
-    'dist/**/*.entity.js',
-    'dist/common/entities/*.entity.js',
+    'dist/**/entities/*.entity.js',
   ],
   entitiesTs: [
-    'src/**/*.entity.ts',
-    'src/common/entities/*.entity.ts',
+    'src/**/entities/*.entity.ts',
   ],
   debug: true,
   metadataProvider: ReflectMetadataProvider,
