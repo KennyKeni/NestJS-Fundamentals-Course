@@ -1,10 +1,11 @@
 
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { PokemonStat } from './pokemonStat.entity';
 
 @Entity()
 export class Pokemon {
   @PrimaryKey({ autoincrement: true })
-  pokemon_id?: number;
+  pokemon_id!: number & Opt;
 
   @Property({ unique: true })
   name!: string;
@@ -20,4 +21,7 @@ export class Pokemon {
 
   @Property({ nullable: true })
   description?: string;
+
+  @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, {orphanRemoval: true})
+  stats!: PokemonStat;
 }

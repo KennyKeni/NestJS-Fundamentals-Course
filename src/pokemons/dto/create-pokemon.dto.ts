@@ -1,5 +1,6 @@
 import { Type } from "class-transformer";
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { CreatePokemonStatDto } from "./create-pokemonStat.dto";
 
 export class CreatePokemonDto {
   @IsOptional()
@@ -27,4 +28,8 @@ export class CreatePokemonDto {
   @IsOptional()
   @IsString()
   readonly description?: string;
+
+  @ValidateNested()
+  @Type(() => CreatePokemonStatDto)
+  readonly stats!: CreatePokemonStatDto;
 }
