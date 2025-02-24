@@ -1,7 +1,7 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { PokemonsController } from './pokemons.controller';
-import { PokemonsService } from './pokemons.service';
+import { PokemonsController } from './pokemon.controller';
+import { PokemonsService } from './pokemon.service';
 import { Pokemon } from './entities/pokemon.entity';
 
 @Module({

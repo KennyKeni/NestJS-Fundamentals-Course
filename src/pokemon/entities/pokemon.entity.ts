@@ -26,6 +26,9 @@ export class Pokemon {
   @Property({ nullable: true })
   description?: string;
 
+  @Property({ default: false })
+  implemented!: boolean & Opt;
+
   @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
 }

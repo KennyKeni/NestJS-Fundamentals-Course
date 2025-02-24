@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
-import { PokemonsService } from './pokemons.service';
+import { PokemonsService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
 
 @Controller('pokemon')
