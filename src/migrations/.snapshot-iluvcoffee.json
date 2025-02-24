@@ -6,11 +6,11 @@
   "tables": [
     {
       "columns": {
-        "pokemon_id": {
-          "name": "pokemon_id",
+        "pokemon_uuid": {
+          "name": "pokemon_uuid",
           "type": "varchar(255)",
           "unsigned": false,
-          "autoincrement": true,
+          "autoincrement": false,
           "primary": false,
           "nullable": false,
           "length": 255,
@@ -82,7 +82,7 @@
         {
           "keyName": "pokemon_pkey",
           "columnNames": [
-            "pokemon_id"
+            "pokemon_uuid"
           ],
           "composite": false,
           "constraint": true,
@@ -96,8 +96,8 @@
     },
     {
       "columns": {
-        "pokemon_pokemon_id": {
-          "name": "pokemon_pokemon_id",
+        "pokemon_uuid": {
+          "name": "pokemon_uuid",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -167,7 +167,7 @@
         {
           "keyName": "pokemon_stat_pkey",
           "columnNames": [
-            "pokemon_pokemon_id"
+            "pokemon_uuid"
           ],
           "composite": false,
           "constraint": true,
@@ -177,14 +177,14 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "pokemon_stat_pokemon_pokemon_id_foreign": {
-          "constraintName": "pokemon_stat_pokemon_pokemon_id_foreign",
+        "pokemon_stat_pokemon_uuid_foreign": {
+          "constraintName": "pokemon_stat_pokemon_uuid_foreign",
           "columnNames": [
-            "pokemon_pokemon_id"
+            "pokemon_uuid"
           ],
           "localTableName": "public.pokemon_stat",
           "referencedColumnNames": [
-            "pokemon_id"
+            "pokemon_uuid"
           ],
           "referencedTableName": "public.pokemon",
           "deleteRule": "cascade",

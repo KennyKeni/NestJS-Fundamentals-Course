@@ -1,10 +1,10 @@
-import { Entity, OneToOne, PrimaryKey, PrimaryKeyProp, Property } from '@mikro-orm/core';
+import { Cascade, Entity, OneToOne, PrimaryKeyProp, Property } from '@mikro-orm/core';
 import { Pokemon } from './pokemon.entity';
 
 @Entity()
 export class PokemonStat {
 
-  @OneToOne(() => Pokemon, pokemon => pokemon.stats, { primary: true, owner: true, orphanRemoval: true })
+  @OneToOne(() => Pokemon, pokemon => pokemon.stats, { primary: true, owner: true, fieldName: 'pokemon_uuid'})
   pokemon!: Pokemon;
 
   @Property()

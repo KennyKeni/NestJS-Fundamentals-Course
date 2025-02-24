@@ -3,10 +3,14 @@ import { IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "clas
 import { CreatePokemonStatDto } from "./create-pokemonStat.dto";
 
 export class CreatePokemonDto {
-  @IsOptional()
+  // @IsOptional()
+  // @IsNumber()
+  // @Type(() => Number)
+  // readonly pokemon_uuid?: number;
+
+  @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number)
-  readonly pokemon_id?: number;
+  readonly national_dex!: number;
   
   @IsNotEmpty()
   @IsString()
