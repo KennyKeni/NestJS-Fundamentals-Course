@@ -2,11 +2,13 @@
 import { Cascade, Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
+import { MetadataEntity } from 'src/common/entities';
 
 @Entity()
-export class Pokemon {
+export class Pokemon extends MetadataEntity {
+  
   @PrimaryKey()
-  pokemon_uuid = v7();
+  pokemon_uuid = v7(); // This actually gets called explicitly but serves as a backend
 
   @Property()
   national_dex!: number;
@@ -25,9 +27,6 @@ export class Pokemon {
 
   @Property({ nullable: true })
   description?: string;
-
-  @Property({ default: false })
-  implemented!: boolean & Opt;
 
   @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
