@@ -1,6 +1,7 @@
 import { Type } from "class-transformer";
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreatePokemonStatDto } from "./create-pokemonStat.dto";
+import { EntitySource } from "../entities/metadata.entity";
 
 export class CreatePokemonDto {
   // @IsOptional()
@@ -40,4 +41,8 @@ export class CreatePokemonDto {
   @ValidateNested()
   @Type(() => CreatePokemonStatDto)
   readonly stats!: CreatePokemonStatDto;
+
+  @IsOptional()
+  @IsEnum(EntitySource)
+  readonly source?: EntitySource;
 }

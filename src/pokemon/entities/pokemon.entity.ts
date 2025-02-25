@@ -2,11 +2,11 @@
 import { Cascade, Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
-import { MetadataEntity } from 'src/common/entities';
+import { MetadataEntity } from './metadata.entity';
 
 @Entity()
 export class Pokemon extends MetadataEntity {
-  
+
   @PrimaryKey()
   pokemon_uuid = v7(); // This actually gets called explicitly but serves as a backend
 

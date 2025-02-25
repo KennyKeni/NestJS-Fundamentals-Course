@@ -14,16 +14,15 @@ export class PokemonsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    const coffee = this.pokemonsServices.findOne(id);
-    if (!coffee) {
+    const pokemon = this.pokemonsServices.findOne(id);
+    if (!pokemon) {
       throw new NotFoundException(`Pokemon #${id} not found`)
     }
-    return coffee;
+    return pokemon;
   }
 
   @Post()
   create(@Body() createPokemonDto: CreatePokemonDto) {
-    console.log(createPokemonDto instanceof CreatePokemonDto)
     return this.pokemonsServices.create(createPokemonDto);
   }
 

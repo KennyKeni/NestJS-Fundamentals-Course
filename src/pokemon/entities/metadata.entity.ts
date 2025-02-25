@@ -1,6 +1,18 @@
 import { Enum, OptionalProps, Property } from "@mikro-orm/core";
 
 /**
+ * EntitySource defines where the entity in question orginates from, this is to seperate Pokemons or Items
+ * unique to Cobblemon or the Delta server
+ */
+export enum EntitySource {
+  POKEMON = 'pokemon',
+  MINECRAFT = 'minecraft',
+  COBBLEMON = 'cobblemon',
+  DELTA = 'cobblemon_delta',
+  UNKNOWN = 'unknown',
+}
+
+/**
  * MetadataEntity is an abtracted that can be extended on provide more context to other entities
  * such as custom Pokemons, Items, or more.
  */
@@ -17,18 +29,11 @@ export abstract class MetadataEntity{
   @Property({ default: false })
   implemented!: boolean;
 
-  @Enum({ items: () => EntitySource, nativeEnumName: 'entity_source' })
+  @Enum({ 
+    items: () => EntitySource, 
+    nativeEnumName: 'entity_source',
+    default: EntitySource.UNKNOWN
+  })
   source!: EntitySource;
-}
-
-/**
- * EntitySource defines where the entity in question orginates from, this is to seperate Pokemons or Items
- * unique to Cobblemon or the Delta server
- */
-export enum EntitySource {
-  POKEMON = 'pokemon',
-  MINECRAFT = 'minecraft',
-  COBBLEMON = 'cobblemon',
-  DELTA = 'cobblemon_delta',
-  UNKNOWN = 'unknown',
+  
 }

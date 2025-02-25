@@ -16,6 +16,54 @@
           "length": 255,
           "mappedType": "string"
         },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamptz",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "length": 6,
+          "mappedType": "datetime"
+        },
+        "implemented": {
+          "name": "implemented",
+          "type": "boolean",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "default": "false",
+          "mappedType": "boolean"
+        },
+        "source": {
+          "name": "source",
+          "type": "entity_source",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "nativeEnumName": "entity_source",
+          "default": "'unknown'",
+          "enumItems": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ],
+          "mappedType": "enum"
+        },
         "national_dex": {
           "name": "national_dex",
           "type": "int",
@@ -73,16 +121,6 @@
           "nullable": true,
           "length": 255,
           "mappedType": "string"
-        },
-        "implemented": {
-          "name": "implemented",
-          "type": "boolean",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": false,
-          "default": "false",
-          "mappedType": "boolean"
         }
       },
       "name": "pokemon",
@@ -111,7 +149,19 @@
       ],
       "checks": [],
       "foreignKeys": {},
-      "nativeEnums": {}
+      "nativeEnums": {
+        "entity_source": {
+          "name": "entity_source",
+          "schema": "public",
+          "items": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ]
+        }
+      }
     },
     {
       "columns": {
@@ -210,7 +260,19 @@
           "updateRule": "cascade"
         }
       },
-      "nativeEnums": {}
+      "nativeEnums": {
+        "entity_source": {
+          "name": "entity_source",
+          "schema": "public",
+          "items": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ]
+        }
+      }
     },
     {
       "columns": {
@@ -260,7 +322,19 @@
       ],
       "checks": [],
       "foreignKeys": {},
-      "nativeEnums": {}
+      "nativeEnums": {
+        "entity_source": {
+          "name": "entity_source",
+          "schema": "public",
+          "items": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ]
+        }
+      }
     },
     {
       "columns": {
@@ -338,8 +412,32 @@
           "updateRule": "cascade"
         }
       },
-      "nativeEnums": {}
+      "nativeEnums": {
+        "entity_source": {
+          "name": "entity_source",
+          "schema": "public",
+          "items": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ]
+        }
+      }
     }
   ],
-  "nativeEnums": {}
+  "nativeEnums": {
+    "entity_source": {
+      "name": "entity_source",
+      "schema": "public",
+      "items": [
+        "pokemon",
+        "minecraft",
+        "cobblemon",
+        "cobblemon_delta",
+        "unknown"
+      ]
+    }
+  }
 }
