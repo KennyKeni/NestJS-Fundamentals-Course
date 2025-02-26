@@ -1,13 +1,9 @@
 import { Type } from "class-transformer";
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreatePokemonStatDto } from "./create-pokemonStat.dto";
-import { EntitySource } from "../entities/metadata.entity";
+import { EntitySource } from "src/common/enums/entityMetadata";
 
 export class CreatePokemonDto {
-  // @IsOptional()
-  // @IsNumber()
-  // @Type(() => Number)
-  // readonly pokemon_uuid?: number;
 
   @IsNotEmpty()
   @IsNumber()
