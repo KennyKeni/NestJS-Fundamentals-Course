@@ -22,7 +22,7 @@ export class Pokemon extends MetadataEntity {
   @Property()
   generation!: number;
 
-  @Property({ nullable: true })
+  @Property({ nullable: true, type: 'text' })
   description?: string;
 
   @Property({ nullable: true })
@@ -33,4 +33,24 @@ export class Pokemon extends MetadataEntity {
 
   @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
+
+  constructor(
+    national_dex: number,
+    name: string,
+    generation: number,
+    description?: string,
+    image_url?: string,
+    shiny_url?: string,
+    slug?: string,
+  ) {
+    super()
+    this.national_dex = national_dex;
+    this.name = name.trim();
+    this.generation = generation;
+    this.description = description;
+    this.image_url = image_url;
+    this.shiny_url = shiny_url;
+    // Gets rid of all non-alphabetical and replace spaces with dash
+    this.slug = slug || this.name.toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, '-'); // Gets rid of all non-alphabetical and replace spaces with dash
+  }
 }

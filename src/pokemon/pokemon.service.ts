@@ -52,42 +52,47 @@ export class PokemonsService {
 // }
 
   async create(createPokemonDto: CreatePokemonDto) {
+    const exists = await this.pokemonRepository.count({ name: createPokemonDto.name.trim() });
+    if (exists) {
+      throw new ConflictException(
+        `Pokemon with name '${createPokemonDto.name}' already exists`
+      );
+    }
     return this.em.transactional(async (txEm) => {
       // Create the Pokemon entity
-      const pokemon = new Pokemon();
-      
-      // Set Pokemon properties
-      pokemon.national_dex = createPokemonDto.national_dex;
-      pokemon.name = createPokemonDto.name;
-      pokemon.generation = createPokemonDto.generation;
-      pokemon.description = createPokemonDto.description;
-      pokemon.image_url = createPokemonDto.image_url;
-      pokemon.shiny_url = createPokemonDto.shiny_url;
-      pokemon.slug = createPokemonDto.slug || createPokemonDto.name.toLowerCase().replace(/\s+/g, '-');
+      const pokemon = new Pokemon(
+        createPokemonDto.national_dex,
+        createPokemonDto.name,
+        createPokemonDto.generation,
+        createPokemonDto.description,
+        createPokemonDto.image_url,
+        createPokemonDto.shiny_url,
+        createPokemonDto.slug,
+      );
       
       // Persist Pokemon to get the UUID (but not flush yet)
       txEm.persist(pokemon);
       
       // Create PokemonStat and link it to the Pokemon
       const pokemonStatDto: CreatePokemonStatDto = createPokemonDto.stats;
-      const stats = new PokemonStat();
-      stats.pokemon = pokemon;
-      stats.hp = pokemonStatDto.hp;
-      stats.attack = pokemonStatDto.attack;
-      stats.defense = pokemonStatDto.defense;
-      stats.special_attack = pokemonStatDto.special_attack;
-      stats.special_defense = pokemonStatDto.special_defense;
-      stats.speed = pokemonStatDto.speed;
+      const stats = new PokemonStat(
+        pokemon,
+        pokemonStatDto.hp,
+        pokemonStatDto.attack,
+        pokemonStatDto.defense,
+        pokemonStatDto.special_attack,
+        pokemonStatDto.special_defense,
+        pokemonStatDto.speed,
+      );
       
       // Persist the stats
       txEm.persist(stats);
-      
-      // Link the stats back to the Pokemon
+
+      // Ensure this updates or we blow up! This relationship is One to One - Mandatory
       pokemon.stats = stats;
       
-      // No need to call flush() here as the transaction will handle it
-      
       return pokemon;
+      // transaction flushes
     });
   }
 
