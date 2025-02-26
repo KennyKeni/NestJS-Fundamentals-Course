@@ -41,4 +41,8 @@ export class CreatePokemonDto {
   @IsOptional()
   @IsEnum(EntitySource)
   readonly source?: EntitySource;
+
+  @IsOptional()
+  @IsString()
+  readonly slug?: string;
 }

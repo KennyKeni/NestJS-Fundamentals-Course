@@ -4,7 +4,7 @@ import { Pokemon } from './pokemon.entity';
 @Entity()
 export class PokemonStat {
 
-  @OneToOne(() => Pokemon, pokemon => pokemon.stats, { primary: true, owner: true, fieldName: 'pokemon_uuid', deleteRule: 'cascade'})
+  @OneToOne(() => Pokemon, pokemon => pokemon.stats, { primary: true, owner: true, fieldName: 'uuid', deleteRule: 'cascade', hidden: true})
   pokemon!: Pokemon;
 
   @Property()

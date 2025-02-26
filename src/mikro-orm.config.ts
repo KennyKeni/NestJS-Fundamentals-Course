@@ -19,4 +19,5 @@ export default defineConfig({
   debug: true,
   metadataProvider: ReflectMetadataProvider,
   extensions: [Migrator, EntityGenerator, SeedManager],
+  loadStrategy: 'joined',
 })

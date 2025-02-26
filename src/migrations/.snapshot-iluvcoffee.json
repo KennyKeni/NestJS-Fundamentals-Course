@@ -6,8 +6,8 @@
   "tables": [
     {
       "columns": {
-        "pokemon_uuid": {
-          "name": "pokemon_uuid",
+        "uuid": {
+          "name": "uuid",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -83,23 +83,13 @@
           "length": 255,
           "mappedType": "string"
         },
-        "image_url": {
-          "name": "image_url",
+        "slug": {
+          "name": "slug",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
-          "length": 255,
-          "mappedType": "string"
-        },
-        "shiny_url": {
-          "name": "shiny_url",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
+          "nullable": false,
           "length": 255,
           "mappedType": "string"
         },
@@ -114,6 +104,26 @@
         },
         "description": {
           "name": "description",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "length": 255,
+          "mappedType": "string"
+        },
+        "shiny_url": {
+          "name": "shiny_url",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -137,9 +147,19 @@
           "unique": true
         },
         {
+          "columnNames": [
+            "slug"
+          ],
+          "composite": false,
+          "keyName": "pokemon_slug_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "pokemon_pkey",
           "columnNames": [
-            "pokemon_uuid"
+            "uuid"
           ],
           "composite": false,
           "constraint": true,
@@ -165,8 +185,8 @@
     },
     {
       "columns": {
-        "pokemon_uuid": {
-          "name": "pokemon_uuid",
+        "uuid": {
+          "name": "uuid",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -236,7 +256,7 @@
         {
           "keyName": "pokemon_stat_pkey",
           "columnNames": [
-            "pokemon_uuid"
+            "uuid"
           ],
           "composite": false,
           "constraint": true,
@@ -246,14 +266,14 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "pokemon_stat_pokemon_uuid_foreign": {
-          "constraintName": "pokemon_stat_pokemon_uuid_foreign",
+        "pokemon_stat_uuid_foreign": {
+          "constraintName": "pokemon_stat_uuid_foreign",
           "columnNames": [
-            "pokemon_uuid"
+            "uuid"
           ],
           "localTableName": "public.pokemon_stat",
           "referencedColumnNames": [
-            "pokemon_uuid"
+            "uuid"
           ],
           "referencedTableName": "public.pokemon",
           "deleteRule": "cascade",
