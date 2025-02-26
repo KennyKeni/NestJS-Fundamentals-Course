@@ -1,9 +1,9 @@
-import { Entity, PrimaryKeyProp, ManyToOne, PrimaryKey, Property, OneToMany, Cascade, Collection } from "@mikro-orm/core";
+import { Entity, PrimaryKeyProp, ManyToOne, PrimaryKey, Property, OneToMany, Cascade, Collection, Opt } from "@mikro-orm/core";
 
 @Entity()
 export class PokemonType {
   @PrimaryKey({ autoincrement: true })
-  type_id!: number;
+  type_id!: number & Opt;
 
   @Property({ unique: true })
   name!: string;
@@ -12,7 +12,7 @@ export class PokemonType {
   attack_effectiveness = new Collection<Effectiveness>(this);
 
   @OneToMany(() => Effectiveness, effectiveness => effectiveness.defending_type, { cascade: [Cascade.ALL]})
-  defense_effectiveness = new Collection<Effectiveness>(this);
+  defense_effectivenes = new Collection<Effectiveness>(this);
 }
 
 @Entity()

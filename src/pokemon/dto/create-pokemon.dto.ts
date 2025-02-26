@@ -23,7 +23,6 @@ export class CreatePokemonDto {
 
   @IsNotEmpty()
   @IsNumber()
-  @Type(() => Number)
   readonly generation!: number;
   
   @IsOptional()
@@ -32,6 +31,7 @@ export class CreatePokemonDto {
 
   @IsOptional()
   @IsBoolean()
+  @Type(() => Boolean)
   readonly implemented?: boolean;
 
   @ValidateNested()
