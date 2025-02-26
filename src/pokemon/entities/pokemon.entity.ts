@@ -1,10 +1,11 @@
 
-import { Cascade, Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { BeforeCreate, BeforeUpdate, Cascade, Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
 import { MetadataEntity } from '../../common/entities/metadata.entity';
+import { PokemonRepository } from '../repositories/pokemon.repository';
 
-@Entity()
+@Entity({ repository: () => PokemonRepository })
 export class Pokemon extends MetadataEntity {
 
   @PrimaryKey({ hidden: true })
@@ -16,8 +17,8 @@ export class Pokemon extends MetadataEntity {
   @Property({ unique: true })
   name!: string;
 
-  @Property({ unique: true })
-  slug?: string;
+  @Property({ unique: true, hidden: false })
+  slug!: string;
 
   @Property()
   generation!: number;
@@ -34,6 +35,21 @@ export class Pokemon extends MetadataEntity {
   @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
 
+  @BeforeCreate() // Add before update later, but for now fuck it :3
+  protected generateSlug() {
+    
+    // Gets rid of all non-alphabetical and replace spaces with dash
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z\s]/g, '')
+      .replace(/\s+/g, '-');
+    
+    // Handle empty slug edge case (if name had only special characters)
+    if (!this.slug) {
+      throw new Error('Cannot generate a valid slug. The name must contain at least one alphabetical character.');
+    }
+  }
+
   constructor(
     national_dex: number,
     name: string,
@@ -41,7 +57,6 @@ export class Pokemon extends MetadataEntity {
     description?: string,
     image_url?: string,
     shiny_url?: string,
-    slug?: string,
   ) {
     super()
     this.national_dex = national_dex;
@@ -50,7 +65,5 @@ export class Pokemon extends MetadataEntity {
     this.description = description;
     this.image_url = image_url;
     this.shiny_url = shiny_url;
-    // Gets rid of all non-alphabetical and replace spaces with dash
-    this.slug = slug || this.name.toLowerCase().replace(/[^a-z\s]/g, '').replace(/\s+/g, '-'); // Gets rid of all non-alphabetical and replace spaces with dash
   }
 }

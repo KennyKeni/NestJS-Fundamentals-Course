@@ -1,31 +1,20 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Pokemon, PokemonStat } from './entities';
 import { CreatePokemonDto, UpdatePokemonDto } from './dto';
-import { InjectRepository } from '@mikro-orm/nestjs';
-import { EntityManager, EntityRepository, wrap } from '@mikro-orm/postgresql';
-import { v7 } from 'uuid';
+import { EntityManager, wrap } from '@mikro-orm/postgresql';
 import { CreatePokemonStatDto } from './dto/create-pokemonStat.dto';
+import { PokemonRepository } from './repositories/pokemon.repository';
 
 @Injectable()
 export class PokemonsService {
 
   constructor(
-    @InjectRepository(Pokemon)
-    private readonly pokemonRepository: EntityRepository<Pokemon>,
+    private readonly pokemonRepository: PokemonRepository,
     private readonly em: EntityManager,
   ) {}
 
-  findAll() {
-    // return this.pokemonRepository.findAll({ populate: ['stats'] });
-    // const res = this.em.qb.(Pokemon, 'p')
-    //   .select('*')
-    //   .join('p.stats', 'ps');
-    const qb = this.em.createQueryBuilder(Pokemon, 'p');
-    
-    qb.select('*')
-    .leftJoinAndSelect('p.stats', 'ps');
-
-    return qb.getResultList();
+  async findAll() {
+    return await this.pokemonRepository.findAllPokemonsDetailed()
   }
 
   async findOne(uuid: string) {
@@ -36,23 +25,8 @@ export class PokemonsService {
     return pokemon;
   }
 
-//   async create(createPokemonDto: CreatePokemonDto) {
-//     const exists = await this.pokemonRepository.count({ name: createPokemonDto.name });
-
-//     if (exists > 0) {
-//       throw new ConflictException(
-//         `Pokemon with name '${createPokemonDto.name}' already exists`
-//       );
-//     }
-//     const pokemon = this.em.create(Pokemon, { uuid: v7(), ...createPokemonDto});
-//     const pokemonStats = this.em.create(PokemonStat, {...createPokemonDto.stats, pokemon: pokemon});
-//     await this.em.persistAndFlush([pokemon, pokemonStats]);
-
-//     return pokemon;
-// }
-
   async create(createPokemonDto: CreatePokemonDto) {
-    const exists = await this.pokemonRepository.count({ name: createPokemonDto.name.trim() });
+    const exists = await this.pokemonRepository.existsByName(createPokemonDto.name)
     if (exists) {
       throw new ConflictException(
         `Pokemon with name '${createPokemonDto.name}' already exists`
@@ -67,7 +41,6 @@ export class PokemonsService {
         createPokemonDto.description,
         createPokemonDto.image_url,
         createPokemonDto.shiny_url,
-        createPokemonDto.slug,
       );
       
       // Persist Pokemon to get the UUID (but not flush yet)
@@ -86,7 +59,7 @@ export class PokemonsService {
       );
       
       // Persist the stats
-      txEm.persist(stats);
+      // txEm.persist(stats);
 
       // Ensure this updates or we blow up! This relationship is One to One - Mandatory
       pokemon.stats = stats;
