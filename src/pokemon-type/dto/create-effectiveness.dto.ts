@@ -15,6 +15,7 @@ export class CreateEffectivenessDto {
   @Max(4)
   multiplier!: number;
 }
+
 export class CreateEffectivenessAttackDto {
   @IsNotEmpty()
   @IsNumber()

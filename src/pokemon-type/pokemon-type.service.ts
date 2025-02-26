@@ -42,7 +42,6 @@ export class PokemonTypeService {
 
   private async createEffectiveness(attacking_type: PokemonType, defending_type: PokemonType, multiplier: number) {
     try {
-
       const effectivenes = this.em.create(Effectiveness, {attacking_type, defending_type, multiplier});
       await this.em.persistAndFlush(effectivenes);
       return effectivenes;

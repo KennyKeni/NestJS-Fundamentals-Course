@@ -8,13 +8,12 @@
       "columns": {
         "uuid": {
           "name": "uuid",
-          "type": "varchar(255)",
+          "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "uuid"
         },
         "created_at": {
           "name": "created_at",
@@ -184,15 +183,14 @@
     },
     {
       "columns": {
-        "uuid": {
-          "name": "uuid",
-          "type": "varchar(255)",
+        "pokemon_uuid": {
+          "name": "pokemon_uuid",
+          "type": "uuid",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "uuid"
         },
         "hp": {
           "name": "hp",
@@ -255,7 +253,7 @@
         {
           "keyName": "pokemon_stat_pkey",
           "columnNames": [
-            "uuid"
+            "pokemon_uuid"
           ],
           "composite": false,
           "constraint": true,
@@ -265,10 +263,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "pokemon_stat_uuid_foreign": {
-          "constraintName": "pokemon_stat_uuid_foreign",
+        "pokemon_stat_pokemon_uuid_foreign": {
+          "constraintName": "pokemon_stat_pokemon_uuid_foreign",
           "columnNames": [
-            "uuid"
+            "pokemon_uuid"
           ],
           "localTableName": "public.pokemon_stat",
           "referencedColumnNames": [
@@ -297,13 +295,12 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "varchar(255)",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": true,
-          "primary": false,
+          "primary": true,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "smallint"
         },
         "name": {
           "name": "name",
@@ -360,34 +357,32 @@
       "columns": {
         "attacking_type_id": {
           "name": "attacking_type_id",
-          "type": "varchar(255)",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "smallint"
         },
         "defending_type_id": {
           "name": "defending_type_id",
-          "type": "varchar(255)",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "length": 255,
-          "mappedType": "string"
+          "mappedType": "smallint"
         },
         "multiplier": {
           "name": "multiplier",
-          "type": "numeric(5,2)",
+          "type": "decimal(5,2) CHECK (multiplier IN (0, 0.5, 1.0, 2.0))",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
           "precision": 5,
           "scale": 2,
-          "mappedType": "decimal"
+          "mappedType": "enum"
         }
       },
       "name": "effectiveness",

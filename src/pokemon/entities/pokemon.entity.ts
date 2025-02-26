@@ -1,5 +1,5 @@
 
-import { BeforeCreate, BeforeUpdate, Cascade, Entity, OneToOne, Opt, PrimaryKey, Property } from '@mikro-orm/core';
+import { BeforeCreate, Cascade, Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
 import { MetadataEntity } from '../../common/entities/metadata.entity';
@@ -8,7 +8,7 @@ import { PokemonRepository } from '../repositories/pokemon.repository';
 @Entity({ repository: () => PokemonRepository })
 export class Pokemon extends MetadataEntity {
 
-  @PrimaryKey({ hidden: true })
+  @PrimaryKey({ hidden: true, type: 'uuid' })
   uuid = v7(); 
 
   @Property()

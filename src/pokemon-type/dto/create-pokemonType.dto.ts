@@ -1,9 +1,9 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class CreatePokemonTypeDto {
-  @IsOptional()
+  @IsNotEmpty()
   @IsNumber()
-  type_id?: number;
+  id!: number;
 
   @IsNotEmpty()
   @IsString()
