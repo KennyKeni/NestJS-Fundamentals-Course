@@ -1,2 +1,2 @@
-export * from './PokemonType.entity'
-export * from './Effectiveness.entity'
+export * from './pokemonType.entity'
+export * from './effectiveness.entity'

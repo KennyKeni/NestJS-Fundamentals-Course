@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { PokemonsModule } from './pokemon/pokemon.module';
+import { PokemonModule } from './pokemon/pokemon.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
 import { ConfigModule } from '@nestjs/config';
@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
       envFilePath: '.env'
     }),
     MikroOrmModule.forRoot(), 
-    PokemonsModule, 
+    PokemonModule, 
     PokemonTypeModule,
   ],
   controllers: [AppController],

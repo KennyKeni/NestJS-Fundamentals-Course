@@ -1,9 +1,10 @@
 
-import { BeforeCreate, Cascade, Entity, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { BeforeCreate, Cascade, Collection, Entity, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
 import { MetadataEntity } from '../../common/entities/metadata.entity';
 import { PokemonRepository } from '../repositories/pokemon.repository';
+import { PokemonTyping } from './pokemonTyping.entity';
 
 @Entity({ repository: () => PokemonRepository })
 export class Pokemon extends MetadataEntity {
@@ -34,6 +35,9 @@ export class Pokemon extends MetadataEntity {
 
   @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
+
+  @OneToMany(() => PokemonTyping, pokemonType => pokemonType.pokemon, { cascade: [Cascade.ALL] })
+  pokemon_typing = new Collection<PokemonTyping>(this);
 
   @BeforeCreate() // Add before update later, but for now fuck it :3
   protected generateSlug() {

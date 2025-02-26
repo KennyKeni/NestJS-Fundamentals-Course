@@ -1,5 +1,5 @@
-import { Entity, Enum, ManyToOne, PrimaryKeyProp, Property } from "@mikro-orm/core";
-import { PokemonType } from "./PokemonType.entity";
+import { Entity, ManyToOne, PrimaryKeyProp, Property } from "@mikro-orm/core";
+import { PokemonType } from "./pokemonType.entity";
 
 @Entity()
 export class Effectiveness {
@@ -8,6 +8,7 @@ export class Effectiveness {
     deleteRule: 'cascade', 
     updateRule: 'cascade',
     columnType: 'smallint',
+    fieldName: 'attack_type_id',
   })
   attacking_type!: PokemonType;
 
@@ -16,6 +17,7 @@ export class Effectiveness {
     deleteRule: 'cascade', 
     updateRule: 'cascade',
     columnType: 'smallint',
+    fieldName: 'defend_type_id',
   })
   defending_type!: PokemonType;
 

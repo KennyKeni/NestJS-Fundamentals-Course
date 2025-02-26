@@ -9,26 +9,27 @@ export class PokemonStat {
     owner: true, 
     fieldName: 'pokemon_uuid', 
     deleteRule: 'cascade', 
+    updateRule: 'cascade',
     hidden: true
   })
   pokemon!: Pokemon;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   hp!: number;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   attack!: number;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   defense!: number;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   special_attack!: number;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   special_defense!: number;
 
-  @Property()
+  @Property({ columnType: 'smallint' })
   speed!: number;
 
   [PrimaryKeyProp]?: 'pokemon';

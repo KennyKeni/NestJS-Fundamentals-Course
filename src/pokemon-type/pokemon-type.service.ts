@@ -16,7 +16,7 @@ export class PokemonTypeService {
   // between all types (default mult. of 1)
   async create(createPokemonTypeDto: CreatePokemonTypeDto) {
     try {
-      const pokemonType = this.em.create(PokemonType, createPokemonTypeDto);
+      const pokemonType = new PokemonType(createPokemonTypeDto.id, createPokemonTypeDto.name);
       await this.em.persistAndFlush(pokemonType);
       return pokemonType;
     } catch (error) {

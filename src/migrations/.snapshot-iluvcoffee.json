@@ -194,57 +194,57 @@
         },
         "hp": {
           "name": "hp",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "attack": {
           "name": "attack",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "defense": {
           "name": "defense",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "special_attack": {
           "name": "special_attack",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "special_defense": {
           "name": "special_defense",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "speed": {
           "name": "speed",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         }
       },
       "name": "pokemon_stat",
@@ -355,8 +355,8 @@
     },
     {
       "columns": {
-        "attacking_type_id": {
-          "name": "attacking_type_id",
+        "attack_type_id": {
+          "name": "attack_type_id",
           "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
@@ -364,8 +364,8 @@
           "nullable": false,
           "mappedType": "smallint"
         },
-        "defending_type_id": {
-          "name": "defending_type_id",
+        "defend_type_id": {
+          "name": "defend_type_id",
           "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
@@ -380,9 +380,9 @@
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "precision": 5,
+          "precision": 3,
           "scale": 2,
-          "mappedType": "enum"
+          "mappedType": "decimal"
         }
       },
       "name": "effectiveness",
@@ -391,8 +391,8 @@
         {
           "keyName": "effectiveness_pkey",
           "columnNames": [
-            "attacking_type_id",
-            "defending_type_id"
+            "attack_type_id",
+            "defend_type_id"
           ],
           "composite": true,
           "constraint": true,
@@ -402,10 +402,10 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "effectiveness_attacking_type_id_foreign": {
-          "constraintName": "effectiveness_attacking_type_id_foreign",
+        "effectiveness_attack_type_id_foreign": {
+          "constraintName": "effectiveness_attack_type_id_foreign",
           "columnNames": [
-            "attacking_type_id"
+            "attack_type_id"
           ],
           "localTableName": "public.effectiveness",
           "referencedColumnNames": [
@@ -415,12 +415,100 @@
           "deleteRule": "cascade",
           "updateRule": "cascade"
         },
-        "effectiveness_defending_type_id_foreign": {
-          "constraintName": "effectiveness_defending_type_id_foreign",
+        "effectiveness_defend_type_id_foreign": {
+          "constraintName": "effectiveness_defend_type_id_foreign",
           "columnNames": [
-            "defending_type_id"
+            "defend_type_id"
           ],
           "localTableName": "public.effectiveness",
+          "referencedColumnNames": [
+            "id"
+          ],
+          "referencedTableName": "public.pokemon_type",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        }
+      },
+      "nativeEnums": {
+        "entity_source": {
+          "name": "entity_source",
+          "schema": "public",
+          "items": [
+            "pokemon",
+            "minecraft",
+            "cobblemon",
+            "cobblemon_delta",
+            "unknown"
+          ]
+        }
+      }
+    },
+    {
+      "columns": {
+        "pokemon_uuid": {
+          "name": "pokemon_uuid",
+          "type": "uuid",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "uuid"
+        },
+        "type_id": {
+          "name": "type_id",
+          "type": "smallint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "smallint"
+        },
+        "slot": {
+          "name": "slot",
+          "type": "smallint",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "smallint"
+        }
+      },
+      "name": "pokemon_typing",
+      "schema": "public",
+      "indexes": [
+        {
+          "keyName": "pokemon_typing_pkey",
+          "columnNames": [
+            "pokemon_uuid",
+            "type_id"
+          ],
+          "composite": true,
+          "constraint": true,
+          "primary": true,
+          "unique": true
+        }
+      ],
+      "checks": [],
+      "foreignKeys": {
+        "pokemon_typing_pokemon_uuid_foreign": {
+          "constraintName": "pokemon_typing_pokemon_uuid_foreign",
+          "columnNames": [
+            "pokemon_uuid"
+          ],
+          "localTableName": "public.pokemon_typing",
+          "referencedColumnNames": [
+            "uuid"
+          ],
+          "referencedTableName": "public.pokemon",
+          "deleteRule": "cascade",
+          "updateRule": "cascade"
+        },
+        "pokemon_typing_type_id_foreign": {
+          "constraintName": "pokemon_typing_type_id_foreign",
+          "columnNames": [
+            "type_id"
+          ],
+          "localTableName": "public.pokemon_typing",
           "referencedColumnNames": [
             "id"
           ],
