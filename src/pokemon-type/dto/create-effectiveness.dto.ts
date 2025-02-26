@@ -1,9 +1,10 @@
 import { IsNotEmpty, IsNumber, Max, Min } from "class-validator";
 
-export class CreateEffectivenessDto {
-  @IsNotEmpty()
-  @IsNumber()
-  attacking_type!: number;
+export class CreateEffectivenessAttackDto {
+  // This is not needed because of @Param
+  // @IsNotEmpty()
+  // @IsNumber()
+  // attacking_type!: number;
 
   @IsNotEmpty()
   @IsNumber()

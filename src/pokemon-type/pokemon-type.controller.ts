@@ -1,18 +1,21 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
 import { PokemonTypeService } from './pokemon-type.service';
-import { CreateEffectivenessDto, CreatePokemonTypeDto } from './dto';
+import { CreateEffectivenessAttackDto, CreatePokemonTypeDto } from './dto';
 
+/**
+ * Controller for pokemon-types. Any non-GET methods should be authenticated at an admin level
+ */
 @Controller('type')
 export class PokemonTypeController {
   constructor(private readonly pokemonTypeService: PokemonTypeService) {}
 
   @Post()
-  createType(@Body() createPokemonTypeDto: CreatePokemonTypeDto) {
-    return createPokemonTypeDto.name;
+  create(@Body() createPokemonTypeDto: CreatePokemonTypeDto) {
+    return this.pokemonTypeService.create(createPokemonTypeDto);
   }
 
-  @Post('effectiveness')
-  createEffectiveness(@Body() createEffectivenessDto: CreateEffectivenessDto) {
-    return createEffectivenessDto.attacking_type;
+  @Post(':id/effectiveness/attack')
+  createAttackEffectiveness(@Param('id') id: string, @Body() createEffectivenessDto: CreateEffectivenessAttackDto) {
+    return this.pokemonTypeService.createEffectivenessAttack(id, createEffectivenessDto);
   }
 }

@@ -3,7 +3,7 @@ import { Entity, PrimaryKeyProp, ManyToOne, PrimaryKey, Property, OneToMany, Cas
 @Entity()
 export class PokemonType {
   @PrimaryKey({ autoincrement: true })
-  type_id!: number & Opt;
+  id!: number & Opt;
 
   @Property({ unique: true })
   name!: string;
@@ -17,7 +17,7 @@ export class PokemonType {
 
 @Entity()
 export class Effectiveness {
-  @ManyToOne(() => PokemonType, { primary: true, deleteRule: 'cascade', updateRule: 'cascade' })
+  @ManyToOne(() => PokemonType, { primary: true, deleteRule: 'cascade', updateRule: 'cascade', type: 'int'})
   attacking_type!: PokemonType;
 
   @ManyToOne(() => PokemonType, { primary: true, deleteRule: 'cascade', updateRule: 'cascade' })

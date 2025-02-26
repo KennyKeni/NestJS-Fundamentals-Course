@@ -295,14 +295,15 @@
     },
     {
       "columns": {
-        "type_id": {
-          "name": "type_id",
-          "type": "serial",
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": true,
-          "primary": true,
+          "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "length": 255,
+          "mappedType": "string"
         },
         "name": {
           "name": "name",
@@ -331,7 +332,7 @@
         {
           "keyName": "pokemon_type_pkey",
           "columnNames": [
-            "type_id"
+            "id"
           ],
           "composite": false,
           "constraint": true,
@@ -357,23 +358,25 @@
     },
     {
       "columns": {
-        "attacking_type_type_id": {
-          "name": "attacking_type_type_id",
-          "type": "int",
+        "attacking_type_id": {
+          "name": "attacking_type_id",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "length": 255,
+          "mappedType": "string"
         },
-        "defending_type_type_id": {
-          "name": "defending_type_type_id",
-          "type": "int",
+        "defending_type_id": {
+          "name": "defending_type_id",
+          "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "length": 255,
+          "mappedType": "string"
         },
         "multiplier": {
           "name": "multiplier",
@@ -393,8 +396,8 @@
         {
           "keyName": "effectiveness_pkey",
           "columnNames": [
-            "attacking_type_type_id",
-            "defending_type_type_id"
+            "attacking_type_id",
+            "defending_type_id"
           ],
           "composite": true,
           "constraint": true,
@@ -404,27 +407,27 @@
       ],
       "checks": [],
       "foreignKeys": {
-        "effectiveness_attacking_type_type_id_foreign": {
-          "constraintName": "effectiveness_attacking_type_type_id_foreign",
+        "effectiveness_attacking_type_id_foreign": {
+          "constraintName": "effectiveness_attacking_type_id_foreign",
           "columnNames": [
-            "attacking_type_type_id"
+            "attacking_type_id"
           ],
           "localTableName": "public.effectiveness",
           "referencedColumnNames": [
-            "type_id"
+            "id"
           ],
           "referencedTableName": "public.pokemon_type",
           "deleteRule": "cascade",
           "updateRule": "cascade"
         },
-        "effectiveness_defending_type_type_id_foreign": {
-          "constraintName": "effectiveness_defending_type_type_id_foreign",
+        "effectiveness_defending_type_id_foreign": {
+          "constraintName": "effectiveness_defending_type_id_foreign",
           "columnNames": [
-            "defending_type_type_id"
+            "defending_type_id"
           ],
           "localTableName": "public.effectiveness",
           "referencedColumnNames": [
-            "type_id"
+            "id"
           ],
           "referencedTableName": "public.pokemon_type",
           "deleteRule": "cascade",
