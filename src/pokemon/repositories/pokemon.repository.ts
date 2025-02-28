@@ -6,6 +6,8 @@ export class PokemonRepository extends EntityRepository<Pokemon> {
     return this.createQueryBuilder('p')
     .select('*')
     .leftJoinAndSelect('p.stats', 'ps')
+    .leftJoinAndSelect('p.pokemon_typing', 'pt')
+    .leftJoinAndSelect('pt.type', 't')
     .getResultList();
   }
 

@@ -1,9 +1,11 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Pokemon, PokemonStat } from './entities';
-import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { AssignPokemonTypeDto, CreatePokemonDto, UpdatePokemonDto } from './dto';
 import { EntityManager, wrap } from '@mikro-orm/postgresql';
 import { CreatePokemonStatDto } from './dto/create-pokemonStat.dto';
 import { PokemonRepository } from './repositories/pokemon.repository';
+import { PokemonType } from '@app/pokemon-type/entities';
+import { PokemonTyping } from './entities/pokemonTyping.entity';
 
 @Injectable()
 export class PokemonsService {
@@ -57,9 +59,6 @@ export class PokemonsService {
         pokemonStatDto.special_defense,
         pokemonStatDto.speed,
       );
-      
-      // Persist the stats
-      // txEm.persist(stats);
 
       // Ensure this updates or we blow up! This relationship is One to One - Mandatory
       pokemon.stats = stats;
@@ -69,8 +68,16 @@ export class PokemonsService {
     });
   }
 
+  async assignType(slug: string, assignPokemonTypeDto: AssignPokemonTypeDto) {
+    const pokemon = await this.pokemonRepository.findOneOrFail({ slug });
+    const type = await this.em.findOneOrFail(PokemonType, { id: assignPokemonTypeDto.type_id });
+    const pokemonTyping = this.em.create(PokemonTyping, { pokemon, type, slot: assignPokemonTypeDto.slot });
+    await this.em.persistAndFlush(pokemonTyping);
+    return pokemonTyping;
+  }
+
   async update(pokemon_uuid: string, updatePokemonDto: UpdatePokemonDto) {
-    const pokemon = await this.pokemonRepository.findOne({ uuid: pokemon_uuid})
+    const pokemon = await this.pokemonRepository.findOne({ uuid: pokemon_uuid});
     if (!pokemon) {
       throw new NotFoundException(`Pokemon #${pokemon_uuid} not found`);
     }
@@ -81,14 +88,14 @@ export class PokemonsService {
   }
 
   async remove(pokemon_uuid: string) {
-    const pokemon = await this.pokemonRepository.findOne({ uuid: pokemon_uuid})
+    const pokemon = await this.pokemonRepository.findOne({ uuid: pokemon_uuid});
     if (!pokemon) {
       throw new NotFoundException(`Pokemon #${pokemon_uuid} not found`);
     }
     this.em.removeAndFlush(pokemon);
     return {
       success: true,
-      message: `Pokemon #${pokemon_uuid} successfully removed`
+      message: `Pokemon #${pokemon_uuid} successfully removed`,
     };
   }
 }

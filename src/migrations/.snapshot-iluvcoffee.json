@@ -94,12 +94,12 @@
         },
         "generation": {
           "name": "generation",
-          "type": "int",
+          "type": "smallint",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
           "nullable": false,
-          "mappedType": "integer"
+          "mappedType": "smallint"
         },
         "description": {
           "name": "description",
@@ -149,6 +149,16 @@
             "slug"
           ],
           "composite": false,
+          "keyName": "pokemon_slug_index",
+          "constraint": false,
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "slug"
+          ],
+          "composite": false,
           "keyName": "pokemon_slug_unique",
           "constraint": true,
           "primary": false,
@@ -165,7 +175,14 @@
           "unique": true
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "name": "pokemon_generation_check",
+          "expression": "generation >= 0 AND generation <= 10",
+          "definition": "check ((generation >= 0 AND generation <= 10))",
+          "columnName": "generation"
+        }
+      ],
       "foreignKeys": {},
       "nativeEnums": {
         "entity_source": {
@@ -477,6 +494,16 @@
       "schema": "public",
       "indexes": [
         {
+          "columnNames": [
+            "slot"
+          ],
+          "composite": false,
+          "keyName": "pokemon_typing_slot_unique",
+          "constraint": true,
+          "primary": false,
+          "unique": true
+        },
+        {
           "keyName": "pokemon_typing_pkey",
           "columnNames": [
             "pokemon_uuid",
@@ -488,7 +515,14 @@
           "unique": true
         }
       ],
-      "checks": [],
+      "checks": [
+        {
+          "name": "pokemon_typing_slot_check",
+          "expression": "slot BETWEEN 0 AND 1",
+          "definition": "check ((slot BETWEEN 0 AND 1))",
+          "columnName": "slot"
+        }
+      ],
       "foreignKeys": {
         "pokemon_typing_pokemon_uuid_foreign": {
           "constraintName": "pokemon_typing_pokemon_uuid_foreign",

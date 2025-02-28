@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryKeyProp, Property } from "@mikro-orm/core";
+import { Check, Entity, ManyToOne, PrimaryKeyProp, Property } from "@mikro-orm/core";
 import { Pokemon } from "./pokemon.entity";
 import { PokemonType } from "src/pokemon-type/entities";
 
@@ -15,7 +15,7 @@ export class PokemonTyping {
     fieldName: 'pokemon_uuid', 
     type: 'uuid',
   })
-  pokemon!: Pokemon;
+  pokemon!: Pokemon;  
 
   @ManyToOne(() => PokemonType, {
     primary: true,
@@ -26,6 +26,7 @@ export class PokemonTyping {
   })
   type!: PokemonType;
 
-  @Property({ columnType: 'smallint' })
+  @Check({ expression: 'slot BETWEEN 0 AND 1' })
+  @Property({ columnType: 'smallint', unique: true })
   slot: number;
 }

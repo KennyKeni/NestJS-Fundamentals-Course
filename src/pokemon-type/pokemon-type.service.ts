@@ -20,7 +20,7 @@ export class PokemonTypeService {
       await this.em.persistAndFlush(pokemonType);
       return pokemonType;
     } catch (error) {
-      await this.em.clear();
+      this.em.clear();
       if (error instanceof UniqueConstraintViolationException) {
         throw new ConflictException(`Pokemon type ${createPokemonTypeDto.name} already exists`);
       }

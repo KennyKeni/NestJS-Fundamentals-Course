@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
 import { PokemonsService } from './pokemon.service';
-import { CreatePokemonDto, UpdatePokemonDto } from './dto';
+import { CreatePokemonDto, UpdatePokemonDto, AssignPokemonTypeDto } from './dto';
 
 @Controller('pokemon')
 export class PokemonsController {
@@ -24,6 +24,11 @@ export class PokemonsController {
   @Post()
   create(@Body() createPokemonDto: CreatePokemonDto) {
     return this.pokemonsServices.create(createPokemonDto);
+  }
+
+  @Post(':slug/type')
+  assignType(@Param('slug') slug: string, @Body() assignPokemonTypeDto: AssignPokemonTypeDto ) {
+    return this.pokemonsServices.assignType(slug, assignPokemonTypeDto)
   }
 
   @Patch(':id')

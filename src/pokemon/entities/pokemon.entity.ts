@@ -1,5 +1,5 @@
 
-import { BeforeCreate, Cascade, Collection, Entity, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { BeforeCreate, Cascade, Check, Collection, Entity, Index, OneToMany, OneToOne, PrimaryKey, Property } from '@mikro-orm/core';
 import { v7 } from 'uuid';
 import { PokemonStat } from './pokemonStat.entity';
 import { MetadataEntity } from '../../common/entities/metadata.entity';
@@ -18,13 +18,15 @@ export class Pokemon extends MetadataEntity {
   @Property({ unique: true })
   name!: string;
 
+  @Index()
   @Property({ unique: true, hidden: false })
   slug!: string;
 
-  @Property()
+  @Property({ columnType: 'smallint'})
+  @Check({ expression: 'generation >= 0 AND generation <= 10' }) // 0 generation reserved for custom pokemons
   generation!: number;
 
-  @Property({ nullable: true, type: 'text' })
+  @Property({ nullable: true, type: 'text', columnType: 'text' })
   description?: string;
 
   @Property({ nullable: true })
@@ -33,10 +35,15 @@ export class Pokemon extends MetadataEntity {
   @Property({ nullable: true })
   shiny_url?: string;
 
-  @OneToOne(() => PokemonStat, pokemonstat => pokemonstat.pokemon, { cascade: [Cascade.ALL] })
+  @OneToOne(() => PokemonStat, pokemonStat => pokemonStat.pokemon, { cascade: [Cascade.ALL] })
   stats!: PokemonStat;
 
-  @OneToMany(() => PokemonTyping, pokemonType => pokemonType.pokemon, { cascade: [Cascade.ALL] })
+  @OneToMany(() => PokemonTyping, pokemonType => pokemonType.pokemon, {
+     cascade: [Cascade.ALL],
+     serializer: value => value?.map(pokemonTyping => ({
+      type: pokemonTyping.type.name,
+      slot: pokemonTyping.slot
+     }))})
   pokemon_typing = new Collection<PokemonTyping>(this);
 
   @BeforeCreate() // Add before update later, but for now fuck it :3
