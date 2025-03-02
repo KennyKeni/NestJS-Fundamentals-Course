@@ -9,6 +9,7 @@ import { PokemonTyping } from './entities/pokemonTyping.entity';
 import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto/pagination-query.dto';
 import pokemonConfig from './config/pokemon.config';
 import { ConfigType } from '@nestjs/config';
+import { Public } from '@app/common/decorators/public.decorator';
 
 @Injectable()
 export class PokemonsService {
@@ -20,6 +21,7 @@ export class PokemonsService {
     // private readonly pokemonConfiguration: ConfigType<typeof pokemonConfig>,
   ) {}
 
+  @Public()
   async findAll(paginationQuery: PaginationQueryDto) {
     return await this.pokemonRepository.findAllPokemonsDetailed(paginationQuery.limit, paginationQuery.offset);
   }

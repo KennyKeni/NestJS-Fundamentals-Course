@@ -1,6 +1,5 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { PokemonTypeModule } from './pokemon-type/pokemon-type.module';
@@ -11,6 +10,7 @@ import { Migrator } from '@mikro-orm/migrations';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { SeedManager } from '@mikro-orm/seeder';
 import appConfig from './config/app.config';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -31,8 +31,7 @@ import appConfig from './config/app.config';
       // imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        console.log('Config:', configService.get('database'));
-        const dbConfig = configService.get('database');
+        const dbConfig = configService.getOrThrow('database');
         return {
           driver: PostgreSqlDriver,
           host: dbConfig.host,
@@ -53,6 +52,12 @@ import appConfig from './config/app.config';
     PokemonTypeModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    // {
+    //   provide: APP_PIPE,
+    //   useClass: ValidationPipe,
+    // }
+  ],
 })
 export class AppModule {}

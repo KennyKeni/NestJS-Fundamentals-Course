@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PokemonsService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto, AssignPokemonTypeDto } from './dto';
 import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto/pagination-query.dto';
@@ -8,13 +8,13 @@ export class PokemonsController {
   constructor(private readonly pokemonsServices: PokemonsService) {}
 
   @Get()
-  findAll(@Query() paginationQuery: PaginationQueryDto) {
-    return this.pokemonsServices.findAll(paginationQuery);
+  async findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return await this.pokemonsServices.findAll(paginationQuery);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    const pokemon = this.pokemonsServices.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const pokemon = await this.pokemonsServices.findOne(id);
     if (!pokemon) {
       throw new NotFoundException(`Pokemon #${id} not found`)
     }
