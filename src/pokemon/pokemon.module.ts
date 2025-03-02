@@ -5,10 +5,13 @@ import { PokemonsService } from './pokemon.service';
 import { Pokemon } from './entities/pokemon.entity';
 import { PokemonStat } from './entities';
 import { PokemonTypeModule } from '@app/pokemon-type/pokemon-type.module';
+import { ConfigModule } from '@nestjs/config';
+import pokemonConfig from './config/pokemon.config';
 
 @Module({
   imports: [
     MikroOrmModule.forFeature([Pokemon, PokemonStat]),
+    // ConfigModule.forFeature(pokemonConfig), # Partial registration
     forwardRef(() => PokemonTypeModule)
   ],
   exports: [MikroOrmModule.forFeature([Pokemon])],

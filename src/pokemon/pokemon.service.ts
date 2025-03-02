@@ -1,4 +1,4 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Pokemon, PokemonStat } from './entities';
 import { AssignPokemonTypeDto, CreatePokemonDto, UpdatePokemonDto } from './dto';
 import { EntityManager, wrap } from '@mikro-orm/postgresql';
@@ -6,6 +6,9 @@ import { CreatePokemonStatDto } from './dto/create-pokemonStat.dto';
 import { PokemonRepository } from './repositories/pokemon.repository';
 import { PokemonType } from '@app/pokemon-type/entities';
 import { PokemonTyping } from './entities/pokemonTyping.entity';
+import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto/pagination-query.dto';
+import pokemonConfig from './config/pokemon.config';
+import { ConfigType } from '@nestjs/config';
 
 @Injectable()
 export class PokemonsService {
@@ -13,10 +16,12 @@ export class PokemonsService {
   constructor(
     private readonly pokemonRepository: PokemonRepository,
     private readonly em: EntityManager,
+    // @Inject(pokemonConfig.KEY)
+    // private readonly pokemonConfiguration: ConfigType<typeof pokemonConfig>,
   ) {}
 
-  async findAll() {
-    return await this.pokemonRepository.findAllPokemonsDetailed()
+  async findAll(paginationQuery: PaginationQueryDto) {
+    return await this.pokemonRepository.findAllPokemonsDetailed(paginationQuery.limit, paginationQuery.offset);
   }
 
   async findOne(uuid: string) {

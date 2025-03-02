@@ -1,15 +1,15 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query } from '@nestjs/common';
 import { PokemonsService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto, AssignPokemonTypeDto } from './dto';
+import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto/pagination-query.dto';
 
 @Controller('pokemon')
 export class PokemonsController {
   constructor(private readonly pokemonsServices: PokemonsService) {}
 
   @Get()
-  findAll(@Query() paginationQuery) {
-    const { limit, offset } = paginationQuery;
-    return this.pokemonsServices.findAll();
+  findAll(@Query() paginationQuery: PaginationQueryDto) {
+    return this.pokemonsServices.findAll(paginationQuery);
   }
 
   @Get(':id')
