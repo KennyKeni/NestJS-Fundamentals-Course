@@ -2,7 +2,10 @@ import { Body, Controller, HttpCode, HttpStatus, Post, Res } from '@nestjs/commo
 import { AuthenticationService } from './authentication.service';
 import { SignInDto, SignUpDto } from './dto';
 import { FastifyReply } from 'fastify';
+import { AuthType } from './enums/auth-type.enum';
+import { Auth } from './decorators/auth.decorator';
 
+@Auth(AuthType.None)
 @Controller('authentication')
 export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
@@ -23,6 +26,6 @@ export class AuthenticationController {
       sameSite: true,
     });
 
-    return null;
+    return { accessToken: accessToken}; // For testing, in the future use setCookie.
   }
 }
