@@ -6,10 +6,11 @@ import { LoggingMiddleware } from './middleware/logging.middleware';
 @Module({
   imports: [],
   providers: [
-    { provide: APP_GUARD, useClass: ApiKeyGuard}
+    // { provide: APP_GUARD, useClass: ApiKeyGuard}
   ],
   exports: [],
 })
+
 export class CommonModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggingMiddleware).forRoutes('*');

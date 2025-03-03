@@ -21,6 +21,7 @@
     "reset-schema": "npx mikro-orm migration:fresh && npx mikro-orm migration:create && npx mikro-orm migration:up"
   },
   "dependencies": {
+    "@fastify/cookie": "^11.0.2",
     "@hapi/joi": "^17.1.1",
     "@mikro-orm/core": "^6.4.7",
     "@mikro-orm/entity-generator": "^6.4.5",
@@ -31,9 +32,11 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.1",
+    "@nestjs/jwt": "^11.0.0",
     "@nestjs/mapped-types": "^2.1.0",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/platform-fastify": "^11.0.8",
+    "argon2": "^0.41.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "fastify": "^5.2.1",
