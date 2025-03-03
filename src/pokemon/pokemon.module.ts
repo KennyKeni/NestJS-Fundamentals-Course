@@ -5,8 +5,10 @@ import { PokemonsService } from './pokemon.service';
 import { Pokemon } from './entities/pokemon.entity';
 import { PokemonStat } from './entities';
 import { PokemonTypeModule } from '@app/pokemon-type/pokemon-type.module';
-import { ConfigModule } from '@nestjs/config';
-import pokemonConfig from './config/pokemon.config';
+import { ApiKeyGuard } from '@app/common/guards/api-key/api-key.guard';
+
+// import { ConfigModule } from '@nestjs/config';
+// import pokemonConfig from './config/pokemon.config';
 
 @Module({
   imports: [

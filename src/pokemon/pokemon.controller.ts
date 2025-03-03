@@ -1,12 +1,14 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { PokemonsService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto, AssignPokemonTypeDto } from './dto';
-import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto/pagination-query.dto';
+import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto';
+import { Public } from '@app/common/decorators/public.decorator';
 
 @Controller('pokemon')
 export class PokemonsController {
   constructor(private readonly pokemonsServices: PokemonsService) {}
 
+  @Public()
   @Get()
   async findAll(@Query() paginationQuery: PaginationQueryDto) {
     return await this.pokemonsServices.findAll(paginationQuery);

@@ -11,6 +11,7 @@ import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { SeedManager } from '@mikro-orm/seeder';
 import appConfig from './config/app.config';
 import { AppService } from './app.service';
+import { CommonModule } from './common/common.module';
 
 @Module({
   imports: [
@@ -49,7 +50,8 @@ import { AppService } from './app.service';
       },
     }),
     PokemonModule, 
-    PokemonTypeModule,
+    PokemonTypeModule, 
+    CommonModule,
   ],
   controllers: [AppController],
   providers: [

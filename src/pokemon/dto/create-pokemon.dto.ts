@@ -1,7 +1,7 @@
 import { Type } from "class-transformer";
 import { IsBoolean, IsEnum, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreatePokemonStatDto } from "./create-pokemonStat.dto";
-import { EntitySource } from "src/common/enums/entityMetadata";
+import { EntitySource } from "@app/common/enums/entityMetadata";
 
 export class CreatePokemonDto {
 
