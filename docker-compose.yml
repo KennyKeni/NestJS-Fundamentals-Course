@@ -10,3 +10,8 @@ services:
       POSTGRES_USER: keni
       POSTGRES_PASSWORD: pass123
       POSTGRES_DB: iluvcoffee
+  redis:
+    image: redis
+    ports:
+    - "6379:6379"
+    restart: always

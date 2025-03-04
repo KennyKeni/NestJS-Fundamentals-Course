@@ -12,6 +12,8 @@ import { SeedManager } from '@mikro-orm/seeder';
 import appConfig from './config/app.config';
 import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
+import { UserModule } from './user/user.module';
+import { IamModule } from './iam/iam.module';
 
 @Module({
   imports: [
@@ -26,6 +28,13 @@ import { CommonModule } from './common/common.module';
         DATABASE_USERNAME: Joi.required(),
         DATABASE_PASSWORD: Joi.required(),
         DATABASE_NAME: Joi.required(),
+        JWT_SECRET: Joi.required(),
+        JWT_TOKEN_AUDIENCE: Joi.required(),
+        JWT_TOKEN_ISSUER: Joi.required(),
+        JWT_ACCESS_TOKEN_TTL: Joi.required(),
+        JWT_REFRESH_TOKEN_TTL: Joi.required(),
+        REDIS_HOST: Joi.required(),
+        REDIS_PORT: Joi.required(),
       }),
     }),
     MikroOrmModule.forRootAsync({
@@ -51,7 +60,9 @@ import { CommonModule } from './common/common.module';
     }),
     PokemonModule, 
     PokemonTypeModule, 
-    CommonModule,
+    CommonModule, 
+    UserModule, 
+    IamModule,
   ],
   controllers: [AppController],
   providers: [

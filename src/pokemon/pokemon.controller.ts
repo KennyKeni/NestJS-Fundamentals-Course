@@ -3,12 +3,20 @@ import { PokemonsService } from './pokemon.service';
 import { CreatePokemonDto, UpdatePokemonDto, AssignPokemonTypeDto } from './dto';
 import { PaginationQueryDto } from '@app/common/dto/pagination-query.dto';
 import { Public } from '@app/common/decorators/public.decorator';
+import { Roles } from '@app/iam/authorization/decorators/roles.decorator';
+import { Role } from '@app/user/enums/role.enum';
+import { Permissions } from '@app/iam/authorization/decorators/permissions.decorator';
+import { Permission } from '@app/iam/authorization/permission.type';
+import { FrameworkContributerPolicy } from '@app/iam/authorization/policies/framework-contributer.policy';
+import { Policies } from '@app/iam/authorization/decorators/policies.decorator';
 
 @Controller('pokemon')
 export class PokemonsController {
   constructor(private readonly pokemonsServices: PokemonsService) {}
 
-  @Public()
+  // @Permissions(Permission.CreatePokemon)
+  // @Roles(Role.Regular)
+  @Policies(new FrameworkContributerPolicy(),)
   @Get()
   async findAll(@Query() paginationQuery: PaginationQueryDto) {
     return await this.pokemonsServices.findAll(paginationQuery);

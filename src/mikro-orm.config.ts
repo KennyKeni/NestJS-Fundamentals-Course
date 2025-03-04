@@ -2,6 +2,9 @@ import { defineConfig, PostgreSqlDriver, ReflectMetadataProvider } from "@mikro-
 import { Migrator } from '@mikro-orm/migrations';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { SeedManager } from '@mikro-orm/seeder';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 export default defineConfig({
   driver: PostgreSqlDriver,
