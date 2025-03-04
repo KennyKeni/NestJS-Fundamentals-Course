@@ -4,6 +4,7 @@ import { SignInDto, SignUpDto } from './dto';
 import { FastifyReply } from 'fastify';
 import { AuthType } from './enums/auth-type.enum';
 import { Auth } from './decorators/auth.decorator';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @Auth(AuthType.None)
 @Controller('authentication')
@@ -18,14 +19,44 @@ export class AuthenticationController {
   @HttpCode(HttpStatus.OK)
   @Post('sign-in')
   async signIn(@Res({ passthrough: true }) response: FastifyReply, @Body() signInDto: SignInDto) {
-    const accessToken = await this.authService.signIn(signInDto);
+    const jwtTokens = await this.authService.signIn(signInDto);
     
-    response.setCookie('accessToken', accessToken, {
+    response.setCookie('accessToken', jwtTokens.accessToken, {
       secure: true,
       httpOnly: true,
       sameSite: true,
+      maxAge: this.authService.getAccessTokenTtl(),
     });
 
-    return { accessToken: accessToken}; // For testing, in the future use setCookie.
+    response.setCookie('refreshToken', jwtTokens.refreshToken, {
+      secure: true,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: this.authService.getRefreshTokenTtl(),
+    });
+
+    return { accessToken: jwtTokens.accessToken, refreshToken: jwtTokens.refreshToken }; // For testing, in the future use setCookie.
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh-tokens')
+  async refreshTokens(@Res({ passthrough: true }) response: FastifyReply, @Body() refreshTokenDto: RefreshTokenDto) {
+    const jwtTokens = await this.authService.refreshTokens(refreshTokenDto);
+    
+    response.setCookie('accessToken', jwtTokens.accessToken, {
+      secure: true,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: this.authService.getAccessTokenTtl(),
+    });
+
+    response.setCookie('refreshToken', jwtTokens.refreshToken, {
+      secure: true,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: this.authService.getRefreshTokenTtl(),
+    });
+
+    return { accessToken: jwtTokens.accessToken, refreshToken: jwtTokens.refreshToken }
   }
 }

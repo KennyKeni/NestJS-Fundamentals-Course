@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryKey, Property } from "@mikro-orm/core";
+import { BaseEntity, Entity, Enum, PrimaryKey, Property } from "@mikro-orm/core";
 import { v4 } from "uuid";
+import { Role } from "../enums/role.enum";
 
 @Entity()
 export class User extends BaseEntity{
@@ -11,4 +12,10 @@ export class User extends BaseEntity{
 
   @Property()
   password: string;
+
+  @Enum({ 
+    items: () => Role,
+    nativeEnumName: 'user_role',
+  })
+  role = Role.Regular;
 }

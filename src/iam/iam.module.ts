@@ -10,12 +10,16 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
 import { AccessTokenGuard } from './authentication/guards/access-token.guard';
+import { RefreshTokenIdsStorage } from './authentication/storage/refresh-token-ids.storage';
+import redisConfig from '@app/config/redis.config';
+import { RolesGuard } from './authorization/guards/roles.guard';
 
 @Module({
   imports: [
     MikroOrmModule.forFeature([User]),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forFeature(jwtConfig),
+    ConfigModule.forFeature(redisConfig),
   ],
   providers: [
     {
@@ -26,7 +30,12 @@ import { AccessTokenGuard } from './authentication/guards/access-token.guard';
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
     },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
     AccessTokenGuard,
+    RefreshTokenIdsStorage,
     AuthenticationService,
   ],
   controllers: [AuthenticationController]

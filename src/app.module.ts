@@ -14,8 +14,6 @@ import { AppService } from './app.service';
 import { CommonModule } from './common/common.module';
 import { UserModule } from './user/user.module';
 import { IamModule } from './iam/iam.module';
-import { JwtModule } from '@nestjs/jwt';
-import jwtConfig from './config/jwt.config';
 
 @Module({
   imports: [
@@ -34,6 +32,9 @@ import jwtConfig from './config/jwt.config';
         JWT_TOKEN_AUDIENCE: Joi.required(),
         JWT_TOKEN_ISSUER: Joi.required(),
         JWT_ACCESS_TOKEN_TTL: Joi.required(),
+        JWT_REFRESH_TOKEN_TTL: Joi.required(),
+        REDIS_HOST: Joi.required(),
+        REDIS_PORT: Joi.required(),
       }),
     }),
     MikroOrmModule.forRootAsync({

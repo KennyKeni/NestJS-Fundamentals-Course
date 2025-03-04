@@ -195,6 +195,14 @@
             "cobblemon_delta",
             "unknown"
           ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
+          ]
         }
       }
     },
@@ -305,6 +313,14 @@
             "cobblemon_delta",
             "unknown"
           ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
+          ]
         }
       }
     },
@@ -366,6 +382,14 @@
             "cobblemon",
             "cobblemon_delta",
             "unknown"
+          ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
           ]
         }
       }
@@ -456,6 +480,14 @@
             "cobblemon",
             "cobblemon_delta",
             "unknown"
+          ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
           ]
         }
       }
@@ -562,6 +594,14 @@
             "cobblemon_delta",
             "unknown"
           ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
+          ]
         }
       }
     },
@@ -596,6 +636,20 @@
           "nullable": false,
           "length": 255,
           "mappedType": "string"
+        },
+        "role": {
+          "name": "role",
+          "type": "user_role",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "nativeEnumName": "user_role",
+          "enumItems": [
+            "regular",
+            "admin"
+          ],
+          "mappedType": "enum"
         }
       },
       "name": "user",
@@ -635,6 +689,14 @@
             "cobblemon_delta",
             "unknown"
           ]
+        },
+        "user_role": {
+          "name": "user_role",
+          "schema": "public",
+          "items": [
+            "regular",
+            "admin"
+          ]
         }
       }
     }
@@ -649,6 +711,14 @@
         "cobblemon",
         "cobblemon_delta",
         "unknown"
+      ]
+    },
+    "user_role": {
+      "name": "user_role",
+      "schema": "public",
+      "items": [
+        "regular",
+        "admin"
       ]
     }
   }
