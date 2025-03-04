@@ -13,6 +13,10 @@ import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { RefreshTokenIdsStorage } from './authentication/storage/refresh-token-ids.storage';
 import redisConfig from '@app/config/redis.config';
 import { RolesGuard } from './authorization/guards/roles.guard';
+import { PermissionGuard } from './authorization/guards/permission.guard';
+import { FrameworkContributerPolicyHandler } from './authorization/policies/framework-contributer.policy';
+import { PolicyHandlerStorage } from './authorization/policies/policy-handlers.storage';
+import { PoliciesGuard } from './authorization/guards/policies.guard';
 
 @Module({
   imports: [
@@ -32,11 +36,13 @@ import { RolesGuard } from './authorization/guards/roles.guard';
     },
     {
       provide: APP_GUARD,
-      useClass: RolesGuard,
+      useClass: PoliciesGuard,
     },
     AccessTokenGuard,
     RefreshTokenIdsStorage,
     AuthenticationService,
+    FrameworkContributerPolicyHandler,
+    PolicyHandlerStorage,
   ],
   controllers: [AuthenticationController]
 })

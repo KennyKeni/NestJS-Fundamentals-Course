@@ -645,11 +645,21 @@
           "primary": false,
           "nullable": false,
           "nativeEnumName": "user_role",
+          "default": "'regular'",
           "enumItems": [
             "regular",
             "admin"
           ],
           "mappedType": "enum"
+        },
+        "permissions": {
+          "name": "permissions",
+          "type": "text[]",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "mappedType": "array"
         }
       },
       "name": "user",
